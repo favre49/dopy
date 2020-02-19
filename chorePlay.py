@@ -239,7 +239,7 @@ def resizeAndSave(billingWidget):
                 width, height = im.size
                 size = (FIXED_EDGE, FIXED_EDGE * height / width) if width > height else (FIXED_EDGE * width / height, FIXED_EDGE)
                 im.thumbnail(size, Image.ANTIALIAS)
-                im.save(sourcePath+os.sep+snap.name)
+                im.save(sourcePath+os.sep+snap.name, quality=95)
             except Exception as e:
                 print(e)
                 failedResize += 1
@@ -251,7 +251,6 @@ def resizeAndSave(billingWidget):
             idList = snap.idList
             #print("idlist", idList)
             for entry in idList:
-
                 id = entry[1]
                 numCopies = entry[2]
                 student = database.idValid(id)
@@ -262,7 +261,7 @@ def resizeAndSave(billingWidget):
                         #print("check0045", snapExtension, snapName)
                         if snapExtension: outfile = open(billingPath+os.sep+"{}_{}_{}_{}.{}".format(roomDetails,snapName,copyNo + 1,id,snapExtension), 'wb')
                         else: outfile = open(billingPath+os.sep+"{}_{}_{}_{}".format(roomDetails,snapName,copyNo+1,id), 'wb')
-                        if not unsupportedFormat: im.save(outfile) #save resized snap
+                        if not unsupportedFormat: im.save(outfile, quality=95) #save resized snap
                         else: #copying without resizing
                             bufferSize = 100000
                             buffer = infile.read(buffersize)
@@ -292,7 +291,7 @@ def resizeAndSave(billingWidget):
                 else:
                     outfile = open(deptPath+os.sep+"{}"+os.sep+"{}".format(snap.dept,snapName), 'wb')
                 try:
-                    if not unsupportedFormat: im.save(outfile) #save resized snap
+                    if not unsupportedFormat: im.save(outfile, quality=95) #save resized snap
                     else: #copying without resizing
                         bufferSize = 100000
                         buffer = infile.read(buffersize)
@@ -320,7 +319,7 @@ def resizeAndSave(billingWidget):
                     try:
                         if snapExtension: outfile = open(outsiPath+os.sep+"{}_{}.{}".format(snapName,copyNo + 1,snapExtension), 'wb')
                         else: outfile = open(outsiPath+os.sep+"{}_{}".format(snapName,copyNo + 1), 'wb')
-                        if not unsupportedFormat: im.save(outfile) #save resized snap
+                        if not unsupportedFormat: im.save(outfile, quality=95) #save resized snap
                         else: #copying without resizing
                             bufferSize = 100000
                             buffer = infile.read(buffersize)
