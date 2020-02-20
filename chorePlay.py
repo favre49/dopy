@@ -230,24 +230,26 @@ def resizeAndSave(billingWidget):
             snapName = "".join(snap.name.split('.')[:-1]) if len(snap.name.split('.')) > 1 else snap.name
 
             infile = open(sourcePath + os.sep + snap.name, 'rb')
-
-            #handling unknown formats
             unsupportedFormat = False
-            try:
-                #Resize the snap
-                im = Image.open(infile)
-                width, height = im.size
-                size = (FIXED_EDGE, FIXED_EDGE * height / width) if width > height else (FIXED_EDGE * width / height, FIXED_EDGE)
-                im.thumbnail(size, Image.ANTIALIAS)
-                im.save(sourcePath+os.sep+snap.name, quality=95)
-            except Exception as e:
-                print(e)
-                failedResize += 1
-                unsupportedFormat = True
 
-                continue
+            # #handling unknown formats
+            # unsupportedFormat = False
+            # try:
+            #     #Resize the snap
+            #     im = Image.open(infile)
+            #     width, height = im.size
+            #     size = (FIXED_EDGE, FIXED_EDGE * height / width) if width > height else (FIXED_EDGE * width / height, FIXED_EDGE)
+            #     im.thumbnail(size, Image.ANTIALIAS)
+            #     im.save(sourcePath+os.sep+snap.name, quality=95)
+            # except Exception as e:
+            #     print(e)
+            #     failedResize += 1
+            #     unsupportedFormat = True
+
+            #     continue
 
             #Copy roll snaps
+            im = Image.open(infile)
             idList = snap.idList
             #print("idlist", idList)
             for entry in idList:
@@ -258,10 +260,10 @@ def resizeAndSave(billingWidget):
 
                 for copyNo in range(numCopies):
                     try:
-                        #print("check0045", snapExtension, snapName)
+                        print("check0045", snapExtension, snapName)
                         if snapExtension: outfile = open(billingPath+os.sep+"{}_{}_{}_{}.{}".format(roomDetails,snapName,copyNo + 1,id,snapExtension), 'wb')
                         else: outfile = open(billingPath+os.sep+"{}_{}_{}_{}".format(roomDetails,snapName,copyNo+1,id), 'wb')
-                        if not unsupportedFormat: im.save(outfile, quality=95) #save resized snap
+                        if not unsupportedFormat: im.save(outfile, quality = 95) #save resized snap
                         else: #copying without resizing
                             bufferSize = 100000
                             buffer = infile.read(buffersize)
@@ -291,7 +293,7 @@ def resizeAndSave(billingWidget):
                 else:
                     outfile = open(deptPath+os.sep+"{}"+os.sep+"{}".format(snap.dept,snapName), 'wb')
                 try:
-                    if not unsupportedFormat: im.save(outfile, quality=95) #save resized snap
+                    if not unsupportedFormat: im.save(outfile, "JPEG", quality=95) #save resized snap
                     else: #copying without resizing
                         bufferSize = 100000
                         buffer = infile.read(buffersize)
@@ -319,7 +321,7 @@ def resizeAndSave(billingWidget):
                     try:
                         if snapExtension: outfile = open(outsiPath+os.sep+"{}_{}.{}".format(snapName,copyNo + 1,snapExtension), 'wb')
                         else: outfile = open(outsiPath+os.sep+"{}_{}".format(snapName,copyNo + 1), 'wb')
-                        if not unsupportedFormat: im.save(outfile, quality=95) #save resized snap
+                        if not unsupportedFormat: im.save(outfile, "JPEG", quality=95) #save resized snap
                         else: #copying without resizing
                             bufferSize = 100000
                             buffer = infile.read(buffersize)

@@ -8,7 +8,7 @@ def resize(folder, fileName, factor,k):
     im = Image.open(filePath)
     w, h  = im.size
     newIm = im.resize((int(w*factor), int(h*factor)))
-    newIm.save(str(k)+".png")
+    newIm.save(str(k)+".png", quality = 95)
 
 def bulkResize(imageFolder, factor):
     imgExts = ["jpg","tif"]
