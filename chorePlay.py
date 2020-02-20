@@ -293,7 +293,7 @@ def resizeAndSave(billingWidget):
                 else:
                     outfile = open(deptPath+os.sep+"{}"+os.sep+"{}".format(snap.dept,snapName), 'wb')
                 try:
-                    if not unsupportedFormat: im.save(outfile, "JPEG", quality=95) #save resized snap
+                    if not unsupportedFormat: im.save(outfile, quality=95) #save resized snap
                     else: #copying without resizing
                         bufferSize = 100000
                         buffer = infile.read(buffersize)
@@ -321,7 +321,7 @@ def resizeAndSave(billingWidget):
                     try:
                         if snapExtension: outfile = open(outsiPath+os.sep+"{}_{}.{}".format(snapName,copyNo + 1,snapExtension), 'wb')
                         else: outfile = open(outsiPath+os.sep+"{}_{}".format(snapName,copyNo + 1), 'wb')
-                        if not unsupportedFormat: im.save(outfile, "JPEG", quality=95) #save resized snap
+                        if not unsupportedFormat: im.save(outfile, quality=95) #save resized snap
                         else: #copying without resizing
                             bufferSize = 100000
                             buffer = infile.read(buffersize)
