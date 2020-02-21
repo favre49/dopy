@@ -1,17 +1,18 @@
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
 import sys, os, re, shutil, csv, sqlite3
 from PIL import Image
 import hashlib, random, base64, uuid
 import niggerFiles
 
 def generateDatabase():
-        csvFilePath = QtGui.QFileDialog.getOpenFileName(None, "Locate the Student Details csv file", "", "*.csv")
+        csvFilePath = QtWidgets.QFileDialog.getOpenFileName(None, "Locate the Student Details csv file", "", "*.csv")
+        print(csvFilePath)
         if csvFilePath == "": return None #FileDialog closed
         try:
             databaseFilePath = os.getcwd() + os.sep + "resources" + os.sep +"database.db"
             database = sqlite3.connect(databaseFilePath)
             cursor = database.cursor()
-            csvfile = open(csvFilePath, "r")
+            csvfile = open(csvFilePath[0], "r")
             try:
                 cursor.execute("drop table if exists studrec")
                 cursor.execute('''create table studrec
@@ -39,11 +40,11 @@ def generateDatabase():
                 cursor.execute("insert into studrec values(?,?,?,?,?,?)", (row[0], row1.upper(), row[2].upper(), row[3].upper(), row[4].upper(), row[5]))
             database.commit()
             csvfile.close()
-            QtGui.QMessageBox.information(None, "Sucsex!!!", "The Database has been generated successfully!!!", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(None, "Sucsex!!!", "The Database has been generated successfully!!!", QtWidgets.QMessageBox.Ok)
 
         except Exception as e:
             print("error populating database", str(e))
-            QtGui.QMessageBox.information(None, "Fayul!!!", "Database Not happening", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(None, "Fayul!!!", "Database Not happening", QtWidgets.QMessageBox.Ok)
 
 
 def hashPassword(password):
@@ -80,9 +81,9 @@ def rename(self, path):
                 except:
                     failed += 1
                     pass
-            QtGui.QMessageBox.information(self, "Snaps Renamed!!!", "Snaps successfully renamed:\t\t{}\nSnaps failed:\t\t{}".format(done,failed), QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, "Snaps Renamed!!!", "Snaps successfully renamed:\t\t{}\nSnaps failed:\t\t{}".format(done,failed), QtWidgets.QMessageBox.Ok)
         else:
-            QtGui.QMessageBox.information(self, "Snaps not Renamed!!!", "The Snaps have not been renamed", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, "Snaps not Renamed!!!", "The Snaps have not been renamed", QtWidgets.QMessageBox.Ok)
         self.setEnabled(True)
 
 #copy roll, outsi and dept snaps to respective folders after resizing them
@@ -146,11 +147,11 @@ def generateBill(billingList, database):
     for x in list_2:
         if list_2.count(x)>1:
                 print(billingList[x])
-    reply = QtGui.QMessageBox.question(None, 'View File',
+    reply = QtWidgets.QMessageBox.question(None, 'View File',
             "The bill has been generated.\nWanna check it out?",
-            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
-            QtGui.QMessageBox.No)
-    if reply == QtGui.QMessageBox.Yes:
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+            QtWidgets.QMessageBox.No)
+    if reply == QtWidgets.QMessageBox.Yes:
             os.startfile('suBILL.csv')
     else:
         return None
@@ -168,7 +169,7 @@ def resizeAndSave(billingWidget):
 
         #for an empty roll, do not proceed
         if not roll.snapList:
-            QtGui.QMessageBox.information(None, "Message", "There are no snaps to bill", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(None, "Message", "There are no snaps to bill", QtWidgets.QMessageBox.Ok)
             return None
 
         #handling destinationpath
@@ -177,7 +178,7 @@ def resizeAndSave(billingWidget):
         openFolder = os.path.expanduser('~')
         for line in trackedPathFile: openFolder = os.sep.join(line.split(os.sep)[:-1])
         print("patha", openFolder)
-        destinationPath = QtGui.QFileDialog.getExistingDirectory(None,"Locate the Billed Snaps Folder", openFolder)
+        destinationPath = QtWidgets.QFileDialog.getExistingDirectory(None,"Locate the Billed Snaps Folder", openFolder)
         if destinationPath == "": return None
         trackedPathFile.close()
 
@@ -205,10 +206,10 @@ def resizeAndSave(billingWidget):
         try:
             os.mkdir(billingPath)
         except: #if folder has already been billed
-            reply = QtGui.QMessageBox.question(None, 'Message',
+            reply = QtWidgets.QMessageBox.question(None, 'Message',
                                                "This Folder has already been billed. Do you want\nto go ahead and overwrite the files?",
-                                               QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
-            if reply == QtGui.QMessageBox.No: #Terminate
+                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+            if reply == QtWidgets.QMessageBox.No: #Terminate
                 return None
             else: #Delete existing folder, create new one
                 shutil.rmtree(billingPath)
@@ -357,7 +358,7 @@ def resizeAndSave(billingWidget):
 
         progress.close()
         billingWidget.setEnabled(True)
-        QtGui.QMessageBox.information(None, "Success!!!","Snaps copied successfully\nRoll Snaps copied:\t\t{}\nOutsi Snaps copied:\t\t{}\nDept Snaps Copied:\t\t{}\nEmailIDs written\t\t{}\nSnaps not resized\t\t{}\nSnaps not copied\t\t{}\nPlease make a note of it!!!".format(rollCount,outsiCount,deptCount,emailCount,failedResize,failedCopies), QtGui.QMessageBox.Ok)
+        QtWidgets.QMessageBox.information(None, "Success!!!","Snaps copied successfully\nRoll Snaps copied:\t\t{}\nOutsi Snaps copied:\t\t{}\nDept Snaps Copied:\t\t{}\nEmailIDs written\t\t{}\nSnaps not resized\t\t{}\nSnaps not copied\t\t{}\nPlease make a note of it!!!".format(rollCount,outsiCount,deptCount,emailCount,failedResize,failedCopies), QtWidgets.QMessageBox.Ok)
         return 1
 
     #return function
@@ -367,7 +368,7 @@ def resizeAndSave(billingWidget):
 
 
 #if __name__ == "__main__":
-    #app = QtGui.QApplication(sys.argv)
+    #app = QtWidgets.QApplication(sys.argv)
     #generateDatabase()
     ##database = niggerFiles.Students("database.db")
     #p = niggerFiles.passwordWidget(database)

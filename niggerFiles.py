@@ -1,4 +1,4 @@
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 import os, csv, sqlite3
 import chorePlay
 
@@ -132,10 +132,10 @@ class Students:
             else:
                 return False
 
-class passwordWidget(QtGui.QWidget):
+class passwordWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         self.database = parent.database
         self.setWindowTitle("Password Widget")
         self.setWindowFlags(QtCore.Qt.Window)
@@ -146,25 +146,25 @@ class passwordWidget(QtGui.QWidget):
         self.show()
 
     def setupWidget(self):
-        self.unbillingPasswordOption = QtGui.QRadioButton("Unbilling")
-        self.emailerPasswordOption = QtGui.QRadioButton("Emailer")
-        self.oldPasswordLabel = QtGui.QLabel("Old Password:")
-        self.oldPasswordField = QtGui.QLineEdit()
-        self.newPasswordLabel = QtGui.QLabel("New Password:")
-        self.newPasswordField = QtGui.QLineEdit()
-        self.reEnterNewPasswordLabel = QtGui.QLabel("Re-Enter New Password:")
-        self.reEnterNewPasswordField = QtGui.QLineEdit()
-        self.changePasswordButton = QtGui.QPushButton("Change")
+        self.unbillingPasswordOption = QtWidgets.QRadioButton("Unbilling")
+        self.emailerPasswordOption = QtWidgets.QRadioButton("Emailer")
+        self.oldPasswordLabel = QtWidgets.QLabel("Old Password:")
+        self.oldPasswordField = QtWidgets.QLineEdit()
+        self.newPasswordLabel = QtWidgets.QLabel("New Password:")
+        self.newPasswordField = QtWidgets.QLineEdit()
+        self.reEnterNewPasswordLabel = QtWidgets.QLabel("Re-Enter New Password:")
+        self.reEnterNewPasswordField = QtWidgets.QLineEdit()
+        self.changePasswordButton = QtWidgets.QPushButton("Change")
         self.validity = [0,0,0]
 
         self.unbillingPasswordOption.toggle()
-        self.oldPasswordField.setEchoMode(QtGui.QLineEdit.Password)
-        self.newPasswordField.setEchoMode(QtGui.QLineEdit.Password)
-        self.reEnterNewPasswordField.setEchoMode(QtGui.QLineEdit.Password)
+        self.oldPasswordField.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.newPasswordField.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.reEnterNewPasswordField.setEchoMode(QtWidgets.QLineEdit.Password)
 
         #Layout
-        widgetLayout = QtGui.QVBoxLayout(self)
-        hbox1 = QtGui.QHBoxLayout()
+        widgetLayout = QtWidgets.QVBoxLayout(self)
+        hbox1 = QtWidgets.QHBoxLayout()
         hbox1.addWidget(self.unbillingPasswordOption)
         hbox1.addWidget(self.emailerPasswordOption)
         widgetLayout.addLayout(hbox1)
@@ -178,23 +178,23 @@ class passwordWidget(QtGui.QWidget):
         widgetLayout.addWidget(self.reEnterNewPasswordLabel)
         widgetLayout.addWidget(self.reEnterNewPasswordField)
         widgetLayout.addStretch(True)
-        hbox2 = QtGui.QHBoxLayout()
+        hbox2 = QtWidgets.QHBoxLayout()
         hbox2.addStretch(True)
         hbox2.addWidget(self.changePasswordButton)
         widgetLayout.addLayout(hbox2)
 
         #Signals
         self.unbillingPasswordOption.toggled.connect(self.validityUpdater)
-        #self.emailerPasswordOption = QtGui.QRadioButton("Emailer")
+        #self.emailerPasswordOption = QtWidgets.QRadioButton("Emailer")
         self.oldPasswordField.textChanged.connect(self.validityUpdater)
         self.newPasswordField.textChanged.connect(self.validityUpdater)
         self.reEnterNewPasswordField.textChanged.connect(self.validityUpdater)
         self.changePasswordButton.clicked.connect(self.changePassword)
 
         #Shortcut
-        returnKeyShortcut = QtGui.QShortcut(QtGui.QKeySequence('Return'), self)
+        returnKeyShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Return'), self)
         returnKeyShortcut.activated.connect(self.changePassword)
-        closeShortcut = QtGui.QShortcut(QtGui.QKeySequence('Escape'), self)
+        closeShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Escape'), self)
         closeShortcut.activated.connect(self.close)
 
     def validityUpdater(self):
@@ -238,7 +238,7 @@ class passwordWidget(QtGui.QWidget):
             task = "emailing"
         if self.validity == [1,1,1]:
             self.database.changePassword(task, self.newPasswordField.text())
-            QtGui.QMessageBox.information(self, "Yolo!!!","Password Changed!!!", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, "Yolo!!!","Password Changed!!!", QtWidgets.QMessageBox.Ok)
             self.oldPasswordField.setText("")
             self.newPasswordField.setText("")
             self.reEnterNewPasswordField.setText("")
@@ -247,10 +247,10 @@ class passwordWidget(QtGui.QWidget):
 
 
 
-class searchWidget(QtGui.QWidget):
+class searchWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.parent = parent
         self.setupWidget()
         self.setFixedHeight(self.parent.parent.configurator.searchWidgetHeight)
@@ -258,19 +258,19 @@ class searchWidget(QtGui.QWidget):
 
     def setupWidget(self):
 
-        self.matchesLabel = QtGui.QLabel("")
-        self.searchField = QtGui.QLineEdit("")
-        self.searchButton = QtGui.QPushButton("Search")
-        self.tableWidget = QtGui.QTableWidget(0,3)
+        self.matchesLabel = QtWidgets.QLabel("")
+        self.searchField = QtWidgets.QLineEdit("")
+        self.searchButton = QtWidgets.QPushButton("Search")
+        self.tableWidget = QtWidgets.QTableWidget(0,3)
         self.tableWidget.setHorizontalHeaderLabels(["ID", "NAME", "ROOM"])
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.setShowGrid(False)
 
-        hbox = QtGui.QHBoxLayout()
+        hbox = QtWidgets.QHBoxLayout()
         hbox.addWidget(self.searchField)
         hbox.addWidget(self.searchButton)
 
-        self.widgetLayout = QtGui.QVBoxLayout()
+        self.widgetLayout = QtWidgets.QVBoxLayout()
         self.widgetLayout.addWidget(self.matchesLabel)
         self.widgetLayout.addLayout(hbox)
         self.widgetLayout.addWidget(self.tableWidget)
@@ -279,8 +279,8 @@ class searchWidget(QtGui.QWidget):
         self.tableWidget.cellDoubleClicked.connect(self.updateIdField)
 
 ###############Keyboard shortcuts
-        #searchShortcut = QtGui.QShortcut(QtGui.QKeySequence('Return'), self)
-        setFocusShortcut = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+S'), self)
+        #searchShortcut = QtWidgets.QShortcut(QtWidgets.QKeySequence('Return'), self)
+        setFocusShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+S'), self)
         #searchShortcut.activated.connect(self.populateShortcutHandler)
         setFocusShortcut.activated.connect(self.setFocusHandler)
 
@@ -308,34 +308,34 @@ class searchWidget(QtGui.QWidget):
         list_ = self.parent.database.search(self.searchField.text())
         for i, rec in enumerate(list_):
             self.tableWidget.insertRow(i)
-            self.tableWidget.setCellWidget(i,0,QtGui.QLabel(rec[1]))
-            self.tableWidget.setCellWidget(i,1,QtGui.QLabel(rec[2]))
-            self.tableWidget.setCellWidget(i,2,QtGui.QLabel(str(rec[4] + " " + rec[5])))
+            self.tableWidget.setCellWidget(i,0,QtWidgets.QLabel(rec[1]))
+            self.tableWidget.setCellWidget(i,1,QtWidgets.QLabel(rec[2]))
+            self.tableWidget.setCellWidget(i,2,QtWidgets.QLabel(str(rec[4] + " " + rec[5])))
 
-class customProgressWidget1(QtGui.QWidget):
+class customProgressWidget1(QtWidgets.QWidget):
 
     def __init__(self):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        self.bar = QtGui.QProgressBar()
-        self.headerLabel = QtGui.QLabel()
+        self.bar = QtWidgets.QProgressBar()
+        self.headerLabel = QtWidgets.QLabel()
         font = self.headerLabel.font()
         font.setBold(True)
         self.headerLabel.setFont(font)
         self.headerLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.messageLabel = QtGui.QLabel()
-        layout = QtGui.QVBoxLayout(self)
+        self.messageLabel = QtWidgets.QLabel()
+        layout = QtWidgets.QVBoxLayout(self)
         layout.addWidget(self.headerLabel)
         layout.addWidget(self.messageLabel)
         layout.addWidget(self.bar)
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.resize(400,100)
 
-class fullScreenViewer(QtGui.QGraphicsView):
+class fullScreenViewer(QtWidgets.QGraphicsView):
 
     def __init__(self, pixmap):
 
-        QtGui.QGraphicsView.__init__(self)
+        QtWidgets.QGraphicsView.__init__(self)
 
         self.pixmap = QtGui.QPixmap(pixmap)
 
@@ -344,10 +344,10 @@ class fullScreenViewer(QtGui.QGraphicsView):
 
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint or QtCore.Qt.Popup)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        self.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
+        self.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
         self.showFullScreen()
 
-        d = QtGui.QDesktopWidget()
+        d = QtWidgets.QDesktopWidget()
         self.desktopH = d.height()
         self.desktopW = d.width()
 
@@ -357,12 +357,12 @@ class fullScreenViewer(QtGui.QGraphicsView):
         self.panStartX = 0
         self.panStartY = 0
         print("constructed")
-        closeShortcut = QtGui.QShortcut(QtGui.QKeySequence('Escape'), self)
+        closeShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Escape'), self)
         closeShortcut.activated.connect(self.close)
 
 
     def displayPixmap(self):
-        scene = QtGui.QGraphicsScene()
+        scene = QtWidgets.QGraphicsScene()
         scene.addPixmap(self.pixmap)
         self.setScene(scene)
         if self.pixmap.height() > self.desktopH and self.pixmap.width() > self.desktopW:
@@ -371,7 +371,7 @@ class fullScreenViewer(QtGui.QGraphicsView):
             else: self.scale(self.desktopW/self.pixmap.width(),self.desktopW/self.pixmap.width())
 
     def wheelEvent(self, event):
-        self.setTransformationAnchor(QtGui.QGraphicsView.AnchorUnderMouse)
+        self.setTransformationAnchor(QtWidgets.QGraphicsView.AnchorUnderMouse)
         scaleFactor = 1.15
         center = self.mapToScene(self.viewport().rect().center())
         if event.delta() > 0:
@@ -381,12 +381,12 @@ class fullScreenViewer(QtGui.QGraphicsView):
         self.centerOn(center)
 
 
-class addNickWidget(QtGui.QWidget):
+class addNickWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
         print(type(parent))
         self.parent = parent
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         self.setWindowTitle("Add Nick")
         #self.setStyleSheet("QLineEdit{background-color:#3F4038;color:white;border-radius:3px;padding:2px}")
         self.setWindowFlags(QtCore.Qt.Window)
@@ -394,28 +394,28 @@ class addNickWidget(QtGui.QWidget):
         self.move(400,100)
         self.resize(500,150)
         #components
-        self.nickField = QtGui.QLineEdit()
-        self.idField = QtGui.QLineEdit()
-        self.nameLabel = QtGui.QLabel("")
-        self.roomLabel = QtGui.QLabel("")
-        self.saveButton = QtGui.QPushButton("Add")
+        self.nickField = QtWidgets.QLineEdit()
+        self.idField = QtWidgets.QLineEdit()
+        self.nameLabel = QtWidgets.QLabel("")
+        self.roomLabel = QtWidgets.QLabel("")
+        self.saveButton = QtWidgets.QPushButton("Add")
         #Layout
-        widgetLayout = QtGui.QVBoxLayout(self)
+        widgetLayout = QtWidgets.QVBoxLayout(self)
         widgetLayout.addStretch(True)
-        hbox1 = QtGui.QHBoxLayout()
-        hbox1.addWidget(QtGui.QLabel("Enter Nick:"))
-        hbox1.addWidget(QtGui.QLabel("Enter IDNo:"))
+        hbox1 = QtWidgets.QHBoxLayout()
+        hbox1.addWidget(QtWidgets.QLabel("Enter Nick:"))
+        hbox1.addWidget(QtWidgets.QLabel("Enter IDNo:"))
         widgetLayout.addLayout(hbox1)
-        hbox2 = QtGui.QHBoxLayout()
+        hbox2 = QtWidgets.QHBoxLayout()
         hbox2.addWidget(self.nickField)
         hbox2.addWidget(self.idField)
         widgetLayout.addLayout(hbox2)
         widgetLayout.addStretch(True)
-        hbox3 = QtGui.QHBoxLayout()
+        hbox3 = QtWidgets.QHBoxLayout()
         hbox3.addWidget(self.nameLabel)
         hbox3.addWidget(self.roomLabel)
         widgetLayout.addLayout(hbox3)
-        hbox4 = QtGui.QHBoxLayout()
+        hbox4 = QtWidgets.QHBoxLayout()
         hbox4.addStretch(True)
         hbox4.addWidget(self.saveButton)
         widgetLayout.addLayout(hbox4)
@@ -427,9 +427,9 @@ class addNickWidget(QtGui.QWidget):
         self.saveButton.clicked.connect(self.addNick)
 
         #Shortcut
-        returnKeyShortcut = QtGui.QShortcut(QtGui.QKeySequence('Return'), self)
+        returnKeyShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Return'), self)
         returnKeyShortcut.activated.connect(self.addNick)
-        closeShortcut = QtGui.QShortcut(QtGui.QKeySequence('Escape'), self)
+        closeShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Escape'), self)
         closeShortcut.activated.connect(self.close)
 
     def idFieldHandler(self):
@@ -454,55 +454,55 @@ class addNickWidget(QtGui.QWidget):
 
     def addNick(self):
         if self.nickField.text().strip() == "":
-            QtGui.QMessageBox.information(self, "Nopes!", "Nick not valid!", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, "Nopes!", "Nick not valid!", QtWidgets.QMessageBox.Ok)
             return None
         rec = self.parent.database.idValid(self.idField.text())
         if rec:
             success = self.parent.database.addNick(self.nickField.text(), self.idField.text())
             if success:
-                QtGui.QMessageBox.information(self, "Yolo!", "Successfully Added!", QtGui.QMessageBox.Ok)
+                QtWidgets.QMessageBox.information(self, "Yolo!", "Successfully Added!", QtWidgets.QMessageBox.Ok)
                 self.nickField.setText("")
                 self.idField.setText("")
             else:
-                QtGui.QMessageBox.information(self, "Nopes!", "Nick already exists!", QtGui.QMessageBox.Ok)
+                QtWidgets.QMessageBox.information(self, "Nopes!", "Nick already exists!", QtWidgets.QMessageBox.Ok)
         else:
-            QtGui.QMessageBox.information(self, "Nopes!", "ID not valid!", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, "Nopes!", "ID not valid!", QtWidgets.QMessageBox.Ok)
 
 
-class newDeptList(QtGui.QWidget):
+class newDeptList(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
 
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         #self.setStyleSheet("QLineEdit{background-color:#3F4038;color:white;border-radius:3px;padding:2px}")
         self.setWindowTitle("New Department List")
         self.setWindowFlags(QtCore.Qt.Window)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.move(400,100)
         self.resize(400,500)
-        self.deptNameLabel = QtGui.QLabel("Department/Club:")
-        self.deptNameField = QtGui.QLineEdit()
-        self.saveButton = QtGui.QPushButton("Save")
+        self.deptNameLabel = QtWidgets.QLabel("Department/Club:")
+        self.deptNameField = QtWidgets.QLineEdit()
+        self.saveButton = QtWidgets.QPushButton("Save")
 
-        hbox1 = QtGui.QHBoxLayout()
+        hbox1 = QtWidgets.QHBoxLayout()
         hbox1.addWidget(self.deptNameLabel)
         hbox1.addWidget(self.deptNameField)
 
-        hbox2 = QtGui.QHBoxLayout()
+        hbox2 = QtWidgets.QHBoxLayout()
         hbox2.addStretch()
         hbox2.addWidget(self.saveButton)
 
         self.numFields = 500
-        self.fields = [QtGui.QLineEdit() for i in range(self.numFields)]
-        vbox = QtGui.QVBoxLayout(self)
-        widget = QtGui.QWidget(self)
+        self.fields = [QtWidgets.QLineEdit() for i in range(self.numFields)]
+        vbox = QtWidgets.QVBoxLayout(self)
+        widget = QtWidgets.QWidget(self)
         widget.setLayout(vbox)
-        scrollableArea = QtGui.QScrollArea()
+        scrollableArea = QtWidgets.QScrollArea()
         scrollableArea.setWidget(widget)
         scrollableArea.setWidgetResizable(True)
         for i in range(self.numFields): vbox.addWidget(self.fields[i])
 
-        widgetLayout = QtGui.QVBoxLayout(self)
+        widgetLayout = QtWidgets.QVBoxLayout(self)
         widgetLayout.addLayout(hbox1)
         widgetLayout.addWidget(scrollableArea)
         widgetLayout.addLayout(hbox2)
@@ -510,7 +510,7 @@ class newDeptList(QtGui.QWidget):
         self.saveButton.clicked.connect(self.save)
         self.show()
 
-        closeShortcut = QtGui.QShortcut(QtGui.QKeySequence('Escape'), self)
+        closeShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Escape'), self)
         closeShortcut.activated.connect(self.close)
 
 
@@ -531,8 +531,8 @@ class newDeptList(QtGui.QWidget):
         result = function()
         if result == -1: return None
         if result:
-            QtGui.QMessageBox.information(self, "Success!!!","File saved successfully!!!", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, "Success!!!","File saved successfully!!!", QtWidgets.QMessageBox.Ok)
             self.deptNameField.setText("")
             for field in self.fields: field.setText("")
         else:
-            QtGui.QMessageBox.information(self, "Fail!!!","File not saved!!!", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, "Fail!!!","File not saved!!!", QtWidgets.QMessageBox.Ok)

@@ -1,15 +1,15 @@
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
 import sys, os, tempfile, csv
 
 import niggerFiles, propertiesWidget, leftWidgetUnbilling, displayWidget
 import bill, chorePlay
 
-class unbillingWidget(QtGui.QWidget):
+class unbillingWidget(QtWidgets.QWidget):
     
 
     def __init__(self, parent = None):
 
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         self.parent = parent
         self.roll = bill.Roll()
         self.database = parent.database
@@ -29,12 +29,12 @@ class unbillingWidget(QtGui.QWidget):
         self.displayWidget = displayWidget.displayWidget(self)
         self.searchWidget = niggerFiles.searchWidget(self)
 
-        widgetLayout = QtGui.QHBoxLayout()
+        widgetLayout = QtWidgets.QHBoxLayout()
 
         widgetLayout.addWidget(self.leftWidget)
         widgetLayout.addWidget(self.displayWidget)
 
-        vbox = QtGui.QVBoxLayout()
+        vbox = QtWidgets.QVBoxLayout()
         vbox.addWidget(self.propertiesWidget)
         vbox.addWidget(self.searchWidget)
         widgetLayout.addLayout(vbox)
@@ -50,7 +50,7 @@ class unbillingWidget(QtGui.QWidget):
         self.leftWidget.loadFolderButton.clicked.connect(self.loadNewFolder)
 
 ###############Keyboard Shortcuts
-        returnKeyShortcut = QtGui.QShortcut(QtGui.QKeySequence('Return'), self)
+        returnKeyShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Return'), self)
         returnKeyShortcut.activated.connect(self.returnKeyShortcutHandler)
 
     def returnKeyShortcutHandler(self):
@@ -67,7 +67,7 @@ class unbillingWidget(QtGui.QWidget):
                                + "trackedPath.txt", "r")
         openFolder = os.path.expanduser('~')
         for line in trackedPathFile: openFolder = os.sep.join(line.split(os.sep)[:-1])
-        self.path = QtGui.QFileDialog.getExistingDirectory(self, "Locate the Billed Folder", openFolder)
+        self.path = QtWidgets.QFileDialog.getExistingDirectory(self, "Locate the Billed Folder", openFolder)
         trackedPathFile.close()
         if self.path == "": return None #FileDialog closed
         
@@ -78,17 +78,17 @@ class unbillingWidget(QtGui.QWidget):
         #except:
             #print("exception")
             #self.billingList = []
-        QtGui.QMessageBox.information(self, "Done!!!","Loaded!!!", QtGui.QMessageBox.Ok) 
+        QtWidgets.QMessageBox.information(self, "Done!!!","Loaded!!!", QtWidgets.QMessageBox.Ok) 
         #print(self.billingList)
         
 
     def unbill(self):
 
-        #password, result = QtGui.QInputDialog.getText(self, "Password Protection", "Password:", QtGui.QLineEdit.Password)
+        #password, result = QtWidgets.QInputDialog.getText(self, "Password Protection", "Password:", QtWidgets.QLineEdit.Password)
         #if not result:
             #return None
         #if not self.database.isPasswordValid("unbilling", password):
-            #QtGui.QMessageBox.information(self, "Incorrect!!!","Incorrect Password Entered", QtGui.QMessageBox.Ok)
+            #QtWidgets.QMessageBox.information(self, "Incorrect!!!","Incorrect Password Entered", QtWidgets.QMessageBox.Ok)
             #return None
         for entry in self.billingList:
             before = entry[3]
@@ -133,7 +133,7 @@ class unbillingWidget(QtGui.QWidget):
 
             tempSnapFile.close()
 
-        QtGui.QMessageBox.information(self, "Done!!!","Unbilled!!!", QtGui.QMessageBox.Ok)      
+        QtWidgets.QMessageBox.information(self, "Done!!!","Unbilled!!!", QtWidgets.QMessageBox.Ok)      
 
                     
 
@@ -163,11 +163,11 @@ class unbillingWidget(QtGui.QWidget):
 
     def closeEvent(self, event):
 
-        reply = QtGui.QMessageBox.question(self, 'Quit?',
-            "Unsaved data will be lost.\nSure about it?", QtGui.QMessageBox.Yes |
-            QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+        reply = QtWidgets.QMessageBox.question(self, 'Quit?',
+            "Unsaved data will be lost.\nSure about it?", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
 
-        if reply == QtGui.QMessageBox.Yes:
+        if reply == QtWidgets.QMessageBox.Yes:
             event.accept()
         else:
             event.ignore()

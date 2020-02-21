@@ -1,13 +1,13 @@
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from operator import itemgetter
 import sys, os, random, time, webbrowser
 import bill, unbill, merch, homeWidget, chorePlay, email_ui, config, sendtoprinter, niggerFiles
 sys.path.insert(1, '/usr/local/lib/python3.6/site-packages/PyQt5')
 
-class mainWindow(QtGui.QMainWindow):
+class mainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
-        QtGui.QMainWindow.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
         self.databaseFilePath = "resources" +os.sep+ "database.db"
         self.database = niggerFiles.Students(self.databaseFilePath)
         self.configurator = config.configurator()
@@ -16,7 +16,7 @@ class mainWindow(QtGui.QMainWindow):
         self.setupStatusBar()
         self.setupMenuBar()
         self.setupCentralWidget()
-        QtGui.QApplication.instance().setStyleSheet(self.configurator.applicationStyleSheet)
+        QtWidgets.QApplication.instance().setStyleSheet(self.configurator.applicationStyleSheet)
 
     def setupStatusBar(self):
 
@@ -174,13 +174,13 @@ class mainWindow(QtGui.QMainWindow):
             self.menuItems["merch"][3].setDisabled(True)
 
     def billGenerator(self):
-        path = QtGui.QFileDialog.getExistingDirectory(self, "Locate the Billed Snaps Folder")
+        path = QtWidgets.QFileDialog.getExistingDirectory(self, "Locate the Billed Snaps Folder")
         if path == "": return None #FileDialog closed
         billingList = chorePlay.readSnaps(path)
         chorePlay.generateBill(billingList, self.database)
 
     def setIAmBoredPath(self):
-        path = QtGui.QFileDialog.getExistingDirectory(self, "Locate an interesting Folder")
+        path = QtWidgets.QFileDialog.getExistingDirectory(self, "Locate an interesting Folder")
         if path != "": self.iAmBoredPath = path
 
     def iAmBored(self):
@@ -201,13 +201,13 @@ class mainWindow(QtGui.QMainWindow):
         self.setupStatusBar()
 
 
-app = QtGui.QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 
-app.setStyle(QtGui.QStyleFactory.create("Plastique"))
+app.setStyle(QtWidgets.QStyleFactory.create("Plastique"))
 
 ex = mainWindow()
 splash_pic = QtGui.QPixmap("resources"+os.sep+"Icons"+os.sep+"logo.png")
-splash_screen = QtGui.QSplashScreen(splash_pic,QtCore.Qt.WindowStaysOnTopHint)
+splash_screen = QtWidgets.QSplashScreen(splash_pic,QtCore.Qt.WindowStaysOnTopHint)
 splash_screen.setMask(splash_pic.mask())
 splash_screen.show()
 app.processEvents()

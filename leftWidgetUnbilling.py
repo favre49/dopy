@@ -1,12 +1,12 @@
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets
 import sys, os, re
 import bill, propertiesWidget, niggerFiles
 
 
-class leftWidget(QtGui.QWidget):
+class leftWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.parent = parent
         self.setupWidget()
         self.database = self.parent.database
@@ -15,26 +15,26 @@ class leftWidget(QtGui.QWidget):
 
 ############GUI components
         
-        self.loadFolderButton = QtGui.QPushButton("Load Folder")
-        self.loadFolderLabel = QtGui.QLabel(r"Choose folder to bill")
+        self.loadFolderButton = QtWidgets.QPushButton("Load Folder")
+        self.loadFolderLabel = QtWidgets.QLabel(r"Choose folder to bill")
         self.loadFolderLabel.setWordWrap(True)
-        self.snapInfoLabel = QtGui.QLabel()
-        self.peopleInfoLabel = QtGui.QLabel()
-        self.navigatorLabel = QtGui.QLabel("Find snaps by ID/Roll No")
-        self.navigatorField = QtGui.QLineEdit()
-        self.navigatorButton = QtGui.QPushButton("Find")
-        self.navigator = QtGui.QTreeWidget()
+        self.snapInfoLabel = QtWidgets.QLabel()
+        self.peopleInfoLabel = QtWidgets.QLabel()
+        self.navigatorLabel = QtWidgets.QLabel("Find snaps by ID/Roll No")
+        self.navigatorField = QtWidgets.QLineEdit()
+        self.navigatorButton = QtWidgets.QPushButton("Find")
+        self.navigator = QtWidgets.QTreeWidget()
         self.navigator.setFixedHeight(self.parent.parent.configurator.unbillingTableHeight)
-        self.loadSnapsButton = QtGui.QPushButton("Load Snap(s)")
+        self.loadSnapsButton = QtWidgets.QPushButton("Load Snap(s)")
 
         self.navigator.setColumnCount(1)
-        self.navigatorHeaderItem = QtGui.QTreeWidgetItem()
+        self.navigatorHeaderItem = QtWidgets.QTreeWidgetItem()
         self.navigatorHeaderItem.setText(0, "Snaps")
         self.navigator.setHeaderItem(self.navigatorHeaderItem)
 
         
 #################Layout
-        widgetLayout = QtGui.QVBoxLayout()
+        widgetLayout = QtWidgets.QVBoxLayout()
         widgetLayout.addWidget(self.loadFolderButton)
         widgetLayout.addWidget(self.loadFolderLabel)
         widgetLayout.addStretch(True)
@@ -43,7 +43,7 @@ class leftWidget(QtGui.QWidget):
         widgetLayout.addWidget(self.peopleInfoLabel)
         widgetLayout.addStretch(True)
         widgetLayout.addWidget(self.navigatorLabel)
-        hbox = QtGui.QHBoxLayout()
+        hbox = QtWidgets.QHBoxLayout()
         hbox.addWidget(self.navigatorField)
         hbox.addWidget(self.navigatorButton)
         widgetLayout.addLayout(hbox)
@@ -161,10 +161,10 @@ class leftWidget(QtGui.QWidget):
         #print(list_)
 
         for folderName in list_:
-            item = QtGui.QTreeWidgetItem()
+            item = QtWidgets.QTreeWidgetItem()
             item.setText(0, folderName[0])
             for snapName in folderName[1]:
-                childItem = QtGui.QTreeWidgetItem()
+                childItem = QtWidgets.QTreeWidgetItem()
                 childItem.setText(0, snapName)
                 item.addChild(childItem)
                 item.sortChildren(0, QtCore.Qt.AscendingOrder)
@@ -247,6 +247,6 @@ class leftWidget(QtGui.QWidget):
             
         
 
-#app = QtGui.QApplication(sys.argv)
+#app = QtWidgets.QApplication(sys.argv)
 #s = leftWidget()
 #app.exec_()

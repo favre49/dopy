@@ -1,4 +1,4 @@
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui
 import sys, os, csv, re
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -11,7 +11,7 @@ from base64 import encode
 from collections import namedtuple
 from random import randint
 
-class Email_Ui(QtGui.QWidget):
+class Email_Ui(QtWidgets.QWidget):
     def __init__(self, parent = None):
         self.parent = parent
         super(Email_Ui,self).__init__()
@@ -21,16 +21,16 @@ class Email_Ui(QtGui.QWidget):
 
     def setupUi(self):
 
-        self.prevSnap =QtGui.QLabel("Previous Snap:",self)
-        self.currSnap = QtGui.QLabel("This Snap:",self)
-        self.prevPeople = QtGui.QLabel("No. Of Peepals:",self)
-        self.prevStatus = QtGui.QLabel("Status",self)
-        self.currPeople = QtGui.QLabel("No. Of Peepals:",self)
-        self.currStatus = QtGui.QLabel("Status",self)
-        self.folderButton = QtGui.QPushButton("Choose Folder...",self)
-        #self.boredButton = QtGui.QPushButton("I am bored!",self)
+        self.prevSnap =QtWidgets.QLabel("Previous Snap:",self)
+        self.currSnap = QtWidgets.QLabel("This Snap:",self)
+        self.prevPeople = QtWidgets.QLabel("No. Of Peepals:",self)
+        self.prevStatus = QtWidgets.QLabel("Status",self)
+        self.currPeople = QtWidgets.QLabel("No. Of Peepals:",self)
+        self.currStatus = QtWidgets.QLabel("Status",self)
+        self.folderButton = QtWidgets.QPushButton("Choose Folder...",self)
+        #self.boredButton = QtWidgets.QPushButton("I am bored!",self)
 
-        self.vLayout_left = QtGui.QVBoxLayout()
+        self.vLayout_left = QtWidgets.QVBoxLayout()
         self.vLayout_left.addStretch(True)
         self.vLayout_left.addWidget(self.folderButton)
         self.vLayout_left.addStretch(True)
@@ -44,12 +44,12 @@ class Email_Ui(QtGui.QWidget):
         #self.vLayout_left.addWidget(self.boredButton)
         self.vLayout_left.addStretch(True)
 
-        self.vLayout_center = QtGui.QVBoxLayout()
-        self.pictureViewer = QtGui.QLabel(self)
+        self.vLayout_center = QtWidgets.QVBoxLayout()
+        self.pictureViewer = QtWidgets.QLabel(self)
 
-        self.hLayout_center = QtGui.QHBoxLayout()
-        self.prevButton = QtGui.QPushButton("<< Previous",self)
-        self.nextButton = QtGui.QPushButton("Next >>",self)
+        self.hLayout_center = QtWidgets.QHBoxLayout()
+        self.prevButton = QtWidgets.QPushButton("<< Previous",self)
+        self.nextButton = QtWidgets.QPushButton("Next >>",self)
 
         self.hLayout_center.addStretch(True)
         self.hLayout_center.addWidget(self.prevButton)
@@ -59,20 +59,20 @@ class Email_Ui(QtGui.QWidget):
         self.vLayout_center.addWidget(self.pictureViewer)
         self.vLayout_center.addLayout(self.hLayout_center)
 
-        self.vLayout_right = QtGui.QVBoxLayout()
+        self.vLayout_right = QtWidgets.QVBoxLayout()
         self.hboxlist = []
         self.idfield = []
         self.statusfield = []
 
-        self.scrollWidget = QtGui.QWidget()
-        self.widgetVBox = QtGui.QVBoxLayout()
+        self.scrollWidget = QtWidgets.QWidget()
+        self.widgetVBox = QtWidgets.QVBoxLayout()
 
 
         for i in range(100):
-            self.idfield.append(QtGui.QLineEdit("",self))
+            self.idfield.append(QtWidgets.QLineEdit("",self))
             self.idfield[i].setMaximumWidth(180)
-            self.statusfield.append(QtGui.QLabel("-",self))
-            self.hboxlist.append(QtGui.QHBoxLayout())
+            self.statusfield.append(QtWidgets.QLabel("-",self))
+            self.hboxlist.append(QtWidgets.QHBoxLayout())
 
             self.hboxlist[i].addWidget(self.idfield[i])
             #self.hboxlist[i].addStretch(True)
@@ -83,15 +83,15 @@ class Email_Ui(QtGui.QWidget):
         self.widgetVBox.addLayout(self.vLayout_right)
         self.scrollWidget.setLayout(self.widgetVBox)
 
-        self.scrollarea = QtGui.QScrollArea()
+        self.scrollarea = QtWidgets.QScrollArea()
         self.scrollarea.setWidget(self.scrollWidget)
         self.scrollarea.setWidgetResizable(True)
 
-        self.vLayout_xright=QtGui.QVBoxLayout()
-        self.hLayout_right = QtGui.QHBoxLayout()
+        self.vLayout_xright=QtWidgets.QVBoxLayout()
+        self.hLayout_right = QtWidgets.QHBoxLayout()
 
-        self.emailButton = QtGui.QPushButton("Email",self)
-        self.saveButton = QtGui.QPushButton("Save to sheet",self)
+        self.emailButton = QtWidgets.QPushButton("Email",self)
+        self.saveButton = QtWidgets.QPushButton("Save to sheet",self)
 
         self.hLayout_right.addStretch(True)
         self.hLayout_right.addWidget(self.emailButton)
@@ -101,11 +101,11 @@ class Email_Ui(QtGui.QWidget):
         #self.vLayout_xright.addStretch()
         self.vLayout_xright.addLayout(self.hLayout_right)
 
-        self.hLayout_bottom = QtGui.QHBoxLayout()
-        self.progressBar = QtGui.QProgressBar(self)
+        self.hLayout_bottom = QtWidgets.QHBoxLayout()
+        self.progressBar = QtWidgets.QProgressBar(self)
         self.hLayout_bottom.addWidget(self.progressBar)
 
-        self.hLayout_top = QtGui.QHBoxLayout()
+        self.hLayout_top = QtWidgets.QHBoxLayout()
 
         self.hLayout_top.addLayout(self.vLayout_left)
         self.hLayout_top.addStretch()
@@ -114,7 +114,7 @@ class Email_Ui(QtGui.QWidget):
         self.hLayout_top.addLayout(self.vLayout_xright)
         #self.hLayout_top.addStretch()
 
-        widgetLayout = QtGui.QVBoxLayout()
+        widgetLayout = QtWidgets.QVBoxLayout()
         widgetLayout.addLayout(self.hLayout_top)
         widgetLayout.addLayout(self.hLayout_bottom)
         self.setLayout(widgetLayout)
@@ -136,9 +136,9 @@ class Email_Ui(QtGui.QWidget):
 
     #functions#
     def pathLoader(self):
-        self.path=QtGui.QFileDialog.getExistingDirectory(parent=None, caption='Choose A File')
+        self.path=QtWidgets.QFileDialog.getExistingDirectory(parent=None, caption='Choose A File')
         if self.path == '':
-            QtGui.QMessageBox.about(self,"Choose a valid folder!","You chose nothing. Choose something")
+            QtWidgets.QMessageBox.about(self,"Choose a valid folder!","You chose nothing. Choose something")
             return None
 
         self.pathlist = os.listdir(self.path)
@@ -151,7 +151,7 @@ class Email_Ui(QtGui.QWidget):
                 self.foundflag = 1
                 
         if self.foundflag == 0:
-            QtGui.QMessageBox.about(self,"Choose Another Folder!","Folder ain't got no csv file.Choose another folder.")
+            QtWidgets.QMessageBox.about(self,"Choose Another Folder!","Folder ain't got no csv file.Choose another folder.")
             return None
         else:
             self.emailer.fileReader()
@@ -255,11 +255,11 @@ class Email_Ui(QtGui.QWidget):
 
     def closeEvent(self, event):
 
-        reply = QtGui.QMessageBox.question(self, 'Quit?',
-            "Unsaved data will be lost.\nSure about it?", QtGui.QMessageBox.Yes |
-            QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+        reply = QtWidgets.QMessageBox.question(self, 'Quit?',
+            "Unsaved data will be lost.\nSure about it?", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
 
-        if reply == QtGui.QMessageBox.Yes:
+        if reply == QtWidgets.QMessageBox.Yes:
             event.accept()
         else:
             event.ignore()
@@ -276,7 +276,7 @@ class Emailer():
     def fileReader(self):
         """Read the details from the path and saves them in a list"""
         if self.parent.path == '':
-            QtGui.QMessageBox.about(self.parent,"Choose a valid folder!","You chose nothing. Choose something")
+            QtWidgets.QMessageBox.about(self.parent,"Choose a valid folder!","You chose nothing. Choose something")
             return None
         
         print(self.parent.csvfile)
@@ -393,9 +393,9 @@ class Emailer():
             self.massMailer()
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     ex = Email_Ui()
-    app.setStyle(QtGui.QStyleFactory.create("Plastique"))
+    app.setStyle(QtWidgets.QStyleFactory.create("Plastique"))
     app.setStyleSheet("""
 QWidget{background-color:#000400;color:#62BECB;}
     QPushButton{border-radius:3px;border-width:1px;border-color:#0E4E5A;border-style:outset;padding:5px}

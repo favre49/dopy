@@ -1,13 +1,13 @@
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui
 import sys, os
 import niggerFiles
 
 
-class ButtonPrev(QtGui.QPushButton):
+class ButtonPrev(QtWidgets.QPushButton):
 
     def __init__(self, parent=None):
 
-        QtGui.QPushButton.__init__(self)
+        QtWidgets.QPushButton.__init__(self)
 
         dispX = 2
         dispY = 2
@@ -28,11 +28,11 @@ class ButtonPrev(QtGui.QPushButton):
 
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
-class ButtonNext(QtGui.QPushButton):
+class ButtonNext(QtWidgets.QPushButton):
 
     def __init__(self, parent=None):
 
-        QtGui.QPushButton.__init__(self)
+        QtWidgets.QPushButton.__init__(self)
 
         dispX = 2
         dispY = 2
@@ -53,11 +53,11 @@ class ButtonNext(QtGui.QPushButton):
 
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
-class ButtonFullScreen(QtGui.QPushButton):
+class ButtonFullScreen(QtWidgets.QPushButton):
 
     def __init__(self, parent=None):
 
-        QtGui.QPushButton.__init__(self)
+        QtWidgets.QPushButton.__init__(self)
 
         dispX = 2
         dispY = 2
@@ -78,10 +78,10 @@ class ButtonFullScreen(QtGui.QPushButton):
 
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
-class ButtonRotate(QtGui.QPushButton):
+class ButtonRotate(QtWidgets.QPushButton):
     def __init__(self, parent=None):
 
-        QtGui.QPushButton.__init__(self)
+        QtWidgets.QPushButton.__init__(self)
 
         dispX = 2
         dispY = 2
@@ -99,10 +99,10 @@ class ButtonRotate(QtGui.QPushButton):
 
 
 
-class displayWidget(QtGui.QWidget):
+class displayWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.parent = parent
         self.setupWidget()
 
@@ -125,7 +125,7 @@ class displayWidget(QtGui.QWidget):
         self.pixmap = QtGui.QPixmap()
 
         #imageViewer
-        self.imageViewer = QtGui.QGraphicsView()
+        self.imageViewer = QtWidgets.QGraphicsView()
         self.imageViewer.setFixedSize(self.widgetWidth, self.widgetHeight)
         #print(self.backGroundTexture)
         self.imageViewer.setStyleSheet("QWidget {background-image: url(" + self.backGroundTexture + ") }")
@@ -143,11 +143,11 @@ class displayWidget(QtGui.QWidget):
         self.fullScreenButton = ButtonFullScreen()
 
         #Layout
-        widgetLayout = QtGui.QVBoxLayout()
+        widgetLayout = QtWidgets.QVBoxLayout()
 
         widgetLayout.addWidget(self.imageViewer)
 
-        hbox = QtGui.QHBoxLayout()
+        hbox = QtWidgets.QHBoxLayout()
         hbox.addStretch(True)
         hbox.addWidget(self.previousButton)
         hbox.addWidget(self.rotateCounterClockwiseButton)
@@ -169,10 +169,10 @@ class displayWidget(QtGui.QWidget):
 
 #######################KeyboardShortcuts
 
-        nextSnapShortcut = QtGui.QShortcut(QtGui.QKeySequence('PgDown'), self)
-        previousSnapShortcut = QtGui.QShortcut(QtGui.QKeySequence('PgUp'), self)
-        rotateClockwiseShortcut = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+Right'), self)
-        rotateCounterClockwiseShortcut = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+Left'), self)
+        nextSnapShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('PgDown'), self)
+        previousSnapShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('PgUp'), self)
+        rotateClockwiseShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Right'), self)
+        rotateCounterClockwiseShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Left'), self)
         nextSnapShortcut.activated.connect(lambda: self.loadSnap(1))
         previousSnapShortcut.activated.connect(lambda: self.loadSnap(-1))
         rotateClockwiseShortcut.activated.connect(self.rotate("clockwise"))
@@ -182,7 +182,7 @@ class displayWidget(QtGui.QWidget):
     
     def setPixmap(self):
 
-        scene = QtGui.QGraphicsScene()
+        scene = QtWidgets.QGraphicsScene()
         self.imageViewer.setScene(scene)
         
         #Resize the snap to fit the screen, keeping the aspect ratio
@@ -192,7 +192,7 @@ class displayWidget(QtGui.QWidget):
             else: w,h = self.widgetWidth,self.pixmap.height()*self.widgetWidth/self.pixmap.width()
             scene.addPixmap(self.pixmap.scaled(w,h))
         except:
-            scene = QtGui.QGraphicsScene()
+            scene = QtWidgets.QGraphicsScene()
             self.imageViewer.setScene(scene)
             scene.addPixmap(QtGui.QPixmap())       
 
@@ -228,10 +228,10 @@ class displayWidget(QtGui.QWidget):
 
     def rotate(self, direction):
         def rotateClockwise():
-            self.pixmap = self.pixmap.transformed(QtGui.QTransform().rotate(90))
+            self.pixmap = self.pixmap.transformed(QtWidgets.QTransform().rotate(90))
             self.setPixmap()
         def rotateCounterClockwise():
-            self.pixmap = self.pixmap.transformed(QtGui.QTransform().rotate(-90))
+            self.pixmap = self.pixmap.transformed(QtWidgets.QTransform().rotate(-90))
             self.setPixmap()
         return rotateClockwise if direction == "clockwise" else rotateCounterClockwise
 

@@ -1,16 +1,16 @@
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui
 import sys, os
 
 
-class customComboBox(QtGui.QComboBox):
+class customComboBox(QtWidgets.QComboBox):
 
     def __init__(self, name, parent=None): 
 
-        QtGui.QComboBox.__init__(self)
+        QtWidgets.QComboBox.__init__(self)
 
         self.parent = parent
         self.name = name
-        self.model = QtGui.QStringListModel()
+        self.model = QtCore.QStringListModel()
         self.deptList = ["DoPy", "A1 Assoc", "A2 Assoc", "A3 Assoc", "A4 Assoc/MEA", "A5 Assoc", "A7 Assoc/CSA", "A8 Assoc", "ACM", "AcYut", "ADP",
                          "ArBITS", "AstroClub", "AudiForce", "B1 Assoc ", "B2 Assoc", "B3 Assoc/ EFA", "B5 Assoc", "BAJA", "B4 Assoc", "Backstage",
                          "BITSMUN", "BOSM Sponz", "CrAC", "Dance Club", "DebSoc", "DoT", "DVM", "EDC", "ELAS", "EPC", "Film Making Club", "Firewallz",
@@ -72,11 +72,11 @@ class customComboBox(QtGui.QComboBox):
         self.setEditText('')
         
 
-class CustomQCompleter(QtGui.QCompleter):
+class CustomQCompleter(QtWidgets.QCompleter):
     def __init__(self, parent=None):
         super(CustomQCompleter, self).__init__(parent)
         self.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
-        self.setCompletionMode(QtGui.QCompleter.UnfilteredPopupCompletion)
+        self.setCompletionMode(QtWidgets.QCompleter.UnfilteredPopupCompletion)
         self.setWrapAround(False)                                                        
         self.local_completion_prefix = ""
         self.source_model = None
@@ -87,7 +87,7 @@ class CustomQCompleter(QtGui.QCompleter):
 
     def updateModel(self):
         local_completion_prefix = self.local_completion_prefix
-        class InnerProxyModel(QtGui.QSortFilterProxyModel):
+        class InnerProxyModel(QtWidgets.QSortFilterProxyModel):
             def filterAcceptsRow(self, sourceRow, sourceParent):
                 index0 = self.sourceModel().index(sourceRow, 0, sourceParent)
                 searchStr = local_completion_prefix.lower()
@@ -107,10 +107,10 @@ class CustomQCompleter(QtGui.QCompleter):
         return ""
 
 
-class leftWidget(QtGui.QWidget):
+class leftWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.parent = parent
         self.setupWidget()
 
@@ -123,34 +123,34 @@ class leftWidget(QtGui.QWidget):
 
 ############GUI components
         
-        self.loadFolderButton = QtGui.QPushButton("Load Folder")
-        self.loadFolderLabel = QtGui.QLabel(r"Choose folder to bill")
+        self.loadFolderButton = QtWidgets.QPushButton("Load Folder")
+        self.loadFolderLabel = QtWidgets.QLabel(r"Choose folder to bill")
         self.loadFolderLabel.setWordWrap(True)
 
-        self.snapInfoLabel = QtGui.QLabel()
-        self.peopleInfoLabel = QtGui.QLabel()
+        self.snapInfoLabel = QtWidgets.QLabel()
+        self.peopleInfoLabel = QtWidgets.QLabel()
 
-        self.deptCheckBox = QtGui.QCheckBox("Dept")
+        self.deptCheckBox = QtWidgets.QCheckBox("Dept")
         self.deptNameComboBox = customComboBox("departmentComboBox", self)
-        self.sameAsButton = QtGui.QPushButton("Same As")
-        self.sameAsField = QtGui.QLineEdit("")
+        self.sameAsButton = QtWidgets.QPushButton("Same As")
+        self.sameAsField = QtWidgets.QLineEdit("")
         self.loadIDsComboBox = customComboBox("loadIDsComboBox")
-        self.loadIDsButton = QtGui.QPushButton("Load IDs")
-        self.outsiCheckBox = QtGui.QCheckBox("Outsi")
-        self.outsiQuantity = QtGui.QSpinBox()
+        self.loadIDsButton = QtWidgets.QPushButton("Load IDs")
+        self.outsiCheckBox = QtWidgets.QCheckBox("Outsi")
+        self.outsiQuantity = QtWidgets.QSpinBox()
         self.outsiQuantity.setValue(1)
         self.outsiQuantity.setMinimum(1)
 
-        self.previousSnapLabel = QtGui.QLabel("Previous:")
-        self.nextSnapLabel = QtGui.QLabel("Next:")
-        self.previousSnapViewer = QtGui.QLabel()
-        self.nextSnapViewer = QtGui.QLabel()
+        self.previousSnapLabel = QtWidgets.QLabel("Previous:")
+        self.nextSnapLabel = QtWidgets.QLabel("Next:")
+        self.previousSnapViewer = QtWidgets.QLabel()
+        self.nextSnapViewer = QtWidgets.QLabel()
         self.previousSnapViewer.setPixmap(QtGui.QPixmap().scaled(self.snapViewerSize))
         self.nextSnapViewer.setPixmap(QtGui.QPixmap().scaled(self.snapViewerSize))
 
 ###############Layouts
         
-        widgetLayout = QtGui.QVBoxLayout()
+        widgetLayout = QtWidgets.QVBoxLayout()
         widgetLayout.addWidget(self.loadFolderButton)
         widgetLayout.addWidget(self.loadFolderLabel)
         widgetLayout.addStretch(True)
@@ -166,28 +166,28 @@ class leftWidget(QtGui.QWidget):
         widgetLayout.addWidget(self.nextSnapViewer)
         widgetLayout.addStretch(True)
 
-        self.toolsBox = QtGui.QGroupBox("Tools")
-        layout = QtGui.QVBoxLayout(self.toolsBox)
+        self.toolsBox = QtWidgets.QGroupBox("Tools")
+        layout = QtWidgets.QVBoxLayout(self.toolsBox)
 
-        hbox0 = QtGui.QHBoxLayout()
+        hbox0 = QtWidgets.QHBoxLayout()
         hbox0.addWidget(self.outsiCheckBox)
         hbox0.addWidget(self.outsiQuantity)
         layout.addLayout(hbox0)
         layout.addStretch(True)
         
-        hbox1 = QtGui.QHBoxLayout()
+        hbox1 = QtWidgets.QHBoxLayout()
         hbox1.addWidget(self.deptCheckBox)
         hbox1.addWidget(self.deptNameComboBox)
         layout.addLayout(hbox1)
         layout.addStretch(True)
 
-        hbox2 = QtGui.QHBoxLayout()
+        hbox2 = QtWidgets.QHBoxLayout()
         hbox2.addWidget(self.loadIDsComboBox)
         hbox2.addWidget(self.loadIDsButton)
         layout.addLayout(hbox2)
         layout.addStretch(True)
         
-        hbox3 = QtGui.QHBoxLayout()
+        hbox3 = QtWidgets.QHBoxLayout()
         hbox3.addWidget(self.sameAsField)
         hbox3.addWidget(self.sameAsButton)
         layout.addLayout(hbox3)

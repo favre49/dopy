@@ -1,13 +1,13 @@
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets
 import sys, os
 
-class itemComboBox(QtGui.QComboBox):
+class itemComboBox(QtWidgets.QComboBox):
 
     def __init__(self, parent=None, clothes=False):
 
-        QtGui.QComboBox.__init__(self)
+        QtWidgets.QComboBox.__init__(self)
         self.parent = parent
-        self.model = QtGui.QStringListModel()
+        self.model = QtCore.QStringListModel()
         if clothes:
             self.itemList = self.parent.parent.parent.configurator.clothesItemList
         else:
@@ -26,21 +26,21 @@ class itemComboBox(QtGui.QComboBox):
 
         # self.setGeometry(200, 100, 400, 300)
 
-class quantityBox(QtGui.QLineEdit):
+class quantityBox(QtWidgets.QLineEdit):
 
     def __init__(self, parent=None):
-        QtGui.QLineEdit.__init__(self)
+        QtWidgets.QLineEdit.__init__(self)
         self.parent = parent
         self.setText('')
         # self.setGeometry(200, 100, 400, 300)
 
-class sizeComboBox(QtGui.QComboBox):
+class sizeComboBox(QtWidgets.QComboBox):
 
     def __init__(self, parent=None):
 
-        QtGui.QComboBox.__init__(self)
+        QtWidgets.QComboBox.__init__(self)
         self.parent = parent
-        self.model = QtGui.QStringListModel()
+        self.model = QtCore.QStringListModel()
         self.sizeList = ["S", "M", "L", "XL", "XXL"]
 
         self.model.setStringList(self.sizeList)
@@ -57,11 +57,11 @@ class sizeComboBox(QtGui.QComboBox):
 
         # self.setGeometry(200, 100, 400, 300)
 
-class CustomQCompleter(QtGui.QCompleter):
+class CustomQCompleter(QtWidgets.QCompleter):
     def __init__(self, parent=None):
         super(CustomQCompleter, self).__init__(parent)
         self.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
-        self.setCompletionMode(QtGui.QCompleter.UnfilteredPopupCompletion)
+        self.setCompletionMode(QtWidgets.QCompleter.UnfilteredPopupCompletion)
         self.setWrapAround(False)
         self.local_completion_prefix = ""
         self.source_model = None
@@ -72,7 +72,7 @@ class CustomQCompleter(QtGui.QCompleter):
 
     def updateModel(self):
         local_completion_prefix = self.local_completion_prefix
-        class InnerProxyModel(QtGui.QSortFilterProxyModel):
+        class InnerProxyModel(QtWidgets.QSortFilterProxyModel):
             def filterAcceptsRow(self, sourceRow, sourceParent):
                 index0 = self.sourceModel().index(sourceRow, 0, sourceParent)
                 searchStr = local_completion_prefix.lower()
@@ -91,10 +91,10 @@ class CustomQCompleter(QtGui.QCompleter):
         self.updateModel()
         return ""
 
-class centralWidget(QtGui.QWidget):
+class centralWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.parent = parent
         self.setupWidget()
 
@@ -104,13 +104,13 @@ class centralWidget(QtGui.QWidget):
         # self.setFixedHeight(self.parent.parent.configurator.centralWidgetMerchHeight)
         self.setFixedHeight(440)
 #############Gui Components
-        self.syncButton = QtGui.QPushButton("Sync")
+        self.syncButton = QtWidgets.QPushButton("Sync")
 
-        self.idFieldLabel = QtGui.QLabel(r'ID Number (in format: 201XAXPSXXXX)')
+        self.idFieldLabel = QtWidgets.QLabel(r'ID Number (in format: 201XAXPSXXXX)')
         self.idFieldLabel.setWordWrap(True)
-        self.idField = QtGui.QLineEdit("")
+        self.idField = QtWidgets.QLineEdit("")
 
-        self.isOutstiField = QtGui.QCheckBox("Outsti (Hover over text to view the checkbox)")
+        self.isOutstiField = QtWidgets.QCheckBox("Outsti (Hover over text to view the checkbox)")
 
         self.clothesNameFields = []
         self.clothesSizeFields = []
@@ -123,52 +123,52 @@ class centralWidget(QtGui.QWidget):
             self.restNameFields.append(itemComboBox(self, False))
             self.quantityFields.append(quantityBox(self))
 
-        self.doneButton = QtGui.QPushButton("Done")
+        self.doneButton = QtWidgets.QPushButton("Done")
 
-        hboxSync = QtGui.QHBoxLayout()
+        hboxSync = QtWidgets.QHBoxLayout()
         hboxSync.addStretch(True)
         hboxSync.addWidget(self.syncButton)
 
-        hboxId = QtGui.QHBoxLayout()
+        hboxId = QtWidgets.QHBoxLayout()
         hboxId.addWidget(self.idFieldLabel)
         hboxId.addWidget(self.idField)
 
-        hboxOutsti = QtGui.QHBoxLayout()
+        hboxOutsti = QtWidgets.QHBoxLayout()
         hboxOutsti.addWidget(self.isOutstiField)
 
-        hboxDone = QtGui.QHBoxLayout()
+        hboxDone = QtWidgets.QHBoxLayout()
         hboxDone.addStretch(True)
         hboxDone.addWidget(self.doneButton)
 
-        widgetLayout = QtGui.QVBoxLayout()
+        widgetLayout = QtWidgets.QVBoxLayout()
         widgetLayout.addLayout(hboxSync)
         widgetLayout.addLayout(hboxId)
         widgetLayout.addLayout(hboxOutsti)
 
-        clothesVbox = QtGui.QVBoxLayout()
-        restVbox = QtGui.QVBoxLayout()
+        clothesVbox = QtWidgets.QVBoxLayout()
+        restVbox = QtWidgets.QVBoxLayout()
 
-        clothesLabel = QtGui.QLabel('Clothes based Items')
-        restLabel = QtGui.QLabel('Non-Clothes based Items')
+        clothesLabel = QtWidgets.QLabel('Clothes based Items')
+        restLabel = QtWidgets.QLabel('Non-Clothes based Items')
         clothesVbox.addWidget(clothesLabel)
         restVbox.addWidget(restLabel)
 
         for entry in range(0, 5):
-            hbox = QtGui.QHBoxLayout()
-            label = QtGui.QLabel('Item-'+str(entry + 1))
+            hbox = QtWidgets.QHBoxLayout()
+            label = QtWidgets.QLabel('Item-'+str(entry + 1))
             hbox.addWidget(label)
             hbox.addWidget(self.clothesNameFields[entry])
             hbox.addWidget(self.clothesSizeFields[entry])
             clothesVbox.addLayout(hbox)
 
-            hbox = QtGui.QHBoxLayout()
-            label = QtGui.QLabel('Item-'+str(entry + 1))
+            hbox = QtWidgets.QHBoxLayout()
+            label = QtWidgets.QLabel('Item-'+str(entry + 1))
             hbox.addWidget(label)
             hbox.addWidget(self.restNameFields[entry])
             hbox.addWidget(self.quantityFields[entry])
             restVbox.addLayout(hbox)
 
-        itemsHbox = QtGui.QHBoxLayout()
+        itemsHbox = QtWidgets.QHBoxLayout()
         itemsHbox.setSpacing(12)
         itemsHbox.addLayout(clothesVbox)
         itemsHbox.addStretch(True)

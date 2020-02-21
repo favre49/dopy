@@ -1,14 +1,14 @@
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
 import sys, os, re
 from operator import itemgetter
 import niggerFiles
 
-class sendToPrinter(QtGui.QWidget):
+class sendToPrinter(QtWidgets.QWidget):
     
 
     def __init__(self, parent = None):
 
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         self.parent = parent
         self.setupWidget()
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
@@ -21,32 +21,32 @@ class sendToPrinter(QtGui.QWidget):
         self.setWindowTitle("Send 2 Printer")
         self.move(400,100)
         self.resize(400,500)
-        self.availableRollsViewer = QtGui.QTableWidget(0,1)
+        self.availableRollsViewer = QtWidgets.QTableWidget(0,1)
         self.availableRollsViewer.setHorizontalHeaderLabels(["Available Rolls"])
         self.availableRollsViewer.horizontalHeader().setStretchLastSection(True)
         self.availableRollsViewer.setFixedWidth(300)
         
-        self.sentRollsViewer = QtGui.QTableWidget(0,1)
+        self.sentRollsViewer = QtWidgets.QTableWidget(0,1)
         self.sentRollsViewer.setHorizontalHeaderLabels(["Rolls Sent Previously"])
         self.sentRollsViewer.horizontalHeader().setStretchLastSection(True)
         self.sentRollsViewer.setFixedWidth(300)
         
         self.availableRolls = []
         self.sentRolls = []
-        self.loadFolderButton = QtGui.QPushButton("Load Folder")        
-        self.saveButton = QtGui.QPushButton("Sort and Save")
+        self.loadFolderButton = QtWidgets.QPushButton("Load Folder")        
+        self.saveButton = QtWidgets.QPushButton("Sort and Save")
 
-        hbox1 = QtGui.QHBoxLayout()
+        hbox1 = QtWidgets.QHBoxLayout()
         hbox1.addStretch(True)
         hbox1.addWidget(self.availableRollsViewer)
         hbox1.addWidget(self.sentRollsViewer)
         hbox1.addStretch(True)
-        hbox2 = QtGui.QHBoxLayout()
+        hbox2 = QtWidgets.QHBoxLayout()
         hbox2.addStretch(True)
         hbox2.addWidget(self.loadFolderButton)
         hbox2.addWidget(self.saveButton)
         hbox2.addStretch(True)
-        widgetLayout = QtGui.QVBoxLayout(self)
+        widgetLayout = QtWidgets.QVBoxLayout(self)
         widgetLayout.addLayout(hbox1)
         widgetLayout.addLayout(hbox2)
 
@@ -115,12 +115,12 @@ class sendToPrinter(QtGui.QWidget):
             
         self.progress.close()
         if len(self.availableRolls) > 0:
-            QtGui.QMessageBox.information(self, "Message", "Snaps successfilly copied", QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, "Message", "Snaps successfilly copied", QtWidgets.QMessageBox.Ok)
             
             
 
     def loadNewFolder(self):
-        tempPath = QtGui.QFileDialog.getExistingDirectory(self, "Locate the Billed Snaps Folder")
+        tempPath = QtWidgets.QFileDialog.getExistingDirectory(self, "Locate the Billed Snaps Folder")
         if tempPath == "": return None #FileDialog closed
         else: self.path = tempPath
 #####populating available rolls
@@ -144,7 +144,7 @@ class sendToPrinter(QtGui.QWidget):
         self.availableRolls.sort(key = itemgetter(0,1))
 
         for i,roll in enumerate(self.availableRolls):
-            cellWidget = QtGui.QCheckBox(roll[1])
+            cellWidget = QtWidgets.QCheckBox(roll[1])
             self.availableRollsViewer.insertRow(i)
             #listWidgetItem.setFlags(QtCore.Qt.NoItemFlags)
             self.availableRollsViewer.setCellWidget(i,0,cellWidget)
@@ -182,13 +182,13 @@ class sendToPrinter(QtGui.QWidget):
         
         self.sentRolls.sort(key = itemgetter(0,1))
         for i,roll in enumerate(self.sentRolls):
-            cellWidget = QtGui.QLabel(roll[1])
+            cellWidget = QtWidgets.QLabel(roll[1])
             self.sentRollsViewer.insertRow(i)
             self.sentRollsViewer.setCellWidget(i,0,cellWidget)
                 
         self.availableRollsViewer.setVerticalHeaderLabels(["" for i in range(self.availableRollsViewer.rowCount())])
         self.sentRollsViewer.setVerticalHeaderLabels(["" for i in range(self.sentRollsViewer.rowCount())])
 
-#app = QtGui.QApplication(sys.argv)
+#app = QtWidgets.QApplication(sys.argv)
 #c = sendToPrinter()
 #app.exec_()

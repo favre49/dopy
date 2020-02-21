@@ -1,4 +1,4 @@
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
 import sys, os, re, json, socket
 import chorePlay, niggerFiles, centralWidgetMerch, leftWidget, displayWidget, merchService
 from operator import itemgetter
@@ -11,11 +11,11 @@ class Entry:
 class Batch:
     pass
 
-class merchWidget(QtGui.QWidget):
+class merchWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
 
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         self.parent = parent
         self.batch = Batch()
         self.database = parent.database
@@ -27,10 +27,10 @@ class merchWidget(QtGui.QWidget):
 ###########GUI components
         self.centralWidget = centralWidgetMerch.centralWidget(self)
 
-        widgetLayout = QtGui.QHBoxLayout()
+        widgetLayout = QtWidgets.QHBoxLayout()
         widgetLayout.addWidget(self.centralWidget)
 
-        vbox = QtGui.QVBoxLayout()
+        vbox = QtWidgets.QVBoxLayout()
         vbox.addLayout(widgetLayout)
 
         self.setLayout(vbox)
@@ -40,19 +40,19 @@ class merchWidget(QtGui.QWidget):
 
     def syncButtonHandler(self):
         if not self.connectedOnline():
-            msg = QtGui.QMessageBox()
-            msg.setIcon(QtGui.QMessageBox.Critical)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
             msg.setText("Not connected to internet. Connect and Try again!")
-            msg.setStandardButtons(QtGui.QMessageBox.Ok)
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.buttonClicked.connect(self.closeDialog)
             msg.exec_()
             return
         res = merchService.syncDB()
         if res == 0:
-            msg = QtGui.QMessageBox()
-            msg.setIcon(QtGui.QMessageBox.Information)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.setText("Sync succesful! You can close the software now.")
-            msg.setStandardButtons(QtGui.QMessageBox.Ok)
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.buttonClicked.connect(self.closeDialog)
             msg.exec_()
             self.deleteDBFile()
@@ -72,34 +72,34 @@ class merchWidget(QtGui.QWidget):
     def doneButtonHandler(self):
         result = self.updateEntries()
         if result == 0:
-            msg = QtGui.QMessageBox()
-            msg.setIcon(QtGui.QMessageBox.Information)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.setText("Entry added! Press OK to continue to the next.")
-            msg.setStandardButtons(QtGui.QMessageBox.Ok)
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.buttonClicked.connect(self.closeDialog)
             msg.exec_()
             self.centralWidget.refresh()
         elif result == 2:
-            msg = QtGui.QMessageBox()
-            msg.setIcon(QtGui.QMessageBox.Warning)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("Entries are either empty or incomplete! Please be careful next time")
-            msg.setStandardButtons(QtGui.QMessageBox.Ok)
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.buttonClicked.connect(self.closeDialog)
             msg.exec_()
             # self.centralWidget.refresh()
         elif result == 3:
-            msg = QtGui.QMessageBox()
-            msg.setIcon(QtGui.QMessageBox.Critical)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
             msg.setText("Enter a number as quantity, not any other characters or letters")
-            msg.setStandardButtons(QtGui.QMessageBox.Ok)
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.buttonClicked.connect(self.closeDialog)
             msg.exec_()                
         else:
             # Show error popup.
-            msg = QtGui.QMessageBox()
-            msg.setIcon(QtGui.QMessageBox.Critical)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
             msg.setText("ID Number not in database!")
-            msg.setStandardButtons(QtGui.QMessageBox.Ok)
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.buttonClicked.connect(self.closeDialog)
             msg.exec_()
             pass

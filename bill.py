@@ -1,4 +1,4 @@
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 import sys, os, re
 import chorePlay, niggerFiles, propertiesWidget, leftWidget, displayWidget
 from operator import itemgetter
@@ -104,12 +104,12 @@ class Roll:
         return self.snapList[self.currentPos + difference]
 
 
-class billingWidget(QtGui.QWidget):
+class billingWidget(QtWidgets.QWidget):
 
 
     def __init__(self, parent = None):
 
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         self.parent = parent
         self.roll = Roll()
         self.database = parent.database
@@ -125,12 +125,12 @@ class billingWidget(QtGui.QWidget):
         self.displayWidget = displayWidget.displayWidget(self)
         self.searchWidget = niggerFiles.searchWidget(self)
 
-        widgetLayout = QtGui.QHBoxLayout()
+        widgetLayout = QtWidgets.QHBoxLayout()
 
         widgetLayout.addWidget(self.leftWidget)
         widgetLayout.addWidget(self.displayWidget)
 
-        vbox = QtGui.QVBoxLayout()
+        vbox = QtWidgets.QVBoxLayout()
         vbox.addWidget(self.propertiesWidget)
         vbox.addWidget(self.searchWidget)
         widgetLayout.addLayout(vbox)
@@ -141,7 +141,7 @@ class billingWidget(QtGui.QWidget):
         self.propertiesWidget.doneButton.clicked.connect(self.doneButtonHandler)
 
 #############Keyboard shortcuts
-        returnKeyShortcut = QtGui.QShortcut(QtGui.QKeySequence('Return'), self)
+        returnKeyShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Return'), self)
         returnKeyShortcut.activated.connect(self.returnKeyShortcutHandler)
 
     def returnKeyShortcutHandler(self):
@@ -164,7 +164,7 @@ class billingWidget(QtGui.QWidget):
                                + "trackedPath.txt", "r+")
             openFolder = os.path.expanduser('~')
             for line in trackedPathFile: openFolder = os.sep.join(line.split(os.sep)[:-1])
-            path = QtGui.QFileDialog.getExistingDirectory(self, "Locate the Folder to bill", openFolder)
+            path = QtWidgets.QFileDialog.getExistingDirectory(self, "Locate the Folder to bill", openFolder)
             if path == "": return None #FileDialog closed
             trackedPathFile.seek(0)
             trackedPathFile.write(path)
@@ -183,11 +183,11 @@ class billingWidget(QtGui.QWidget):
 
     def closeEvent(self, event):
 
-        reply = QtGui.QMessageBox.question(self, 'Quit?',
-            "Unsaved data will be lost.\nSure about it?", QtGui.QMessageBox.Yes |
-            QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+        reply = QtWidgets.QMessageBox.question(self, 'Quit?',
+            "Unsaved data will be lost.\nSure about it?", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
 
-        if reply == QtGui.QMessageBox.Yes:
+        if reply == QtWidgets.QMessageBox.Yes:
             event.accept()
         else:
             event.ignore()

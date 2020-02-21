@@ -1,10 +1,10 @@
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 import os, re
 
-class propertiesWidget(QtGui.QWidget):
+class propertiesWidget(QtWidgets.QWidget):
 
     def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.parent = parent
         self.setupWidget()
 
@@ -14,24 +14,24 @@ class propertiesWidget(QtGui.QWidget):
         self.numFields = self.parent.parent.configurator.propertiesWidgetNumFields
         self.setFixedHeight(self.parent.parent.configurator.propertiesWidgetHeight)
 #############Gui Components
-        self.doneButton = QtGui.QPushButton("Done")
-        self.idHeader = QtGui.QLabel("ID No/Email")
-        self.quantityHeader = QtGui.QLabel("Quantity")
-        self.idFields = [QtGui.QLineEdit("") for i in range(self.numFields)]
-        self.quantityFields = [QtGui.QSpinBox() for i in range(self.numFields)]
+        self.doneButton = QtWidgets.QPushButton("Done")
+        self.idHeader = QtWidgets.QLabel("ID No/Email")
+        self.quantityHeader = QtWidgets.QLabel("Quantity")
+        self.idFields = [QtWidgets.QLineEdit("") for i in range(self.numFields)]
+        self.quantityFields = [QtWidgets.QSpinBox() for i in range(self.numFields)]
         for i in range(self.numFields): self.quantityFields[i].setMinimum(1)
         for i in range(self.numFields): self.quantityFields[i].setValue(1)
 
 #validity = -1,0,1 and 2 for invalid,empty,validID,validEmail respectively
         self.validity = [0 for i in range(self.numFields)]
-        self.nameLabel = QtGui.QLabel()
+        self.nameLabel = QtWidgets.QLabel()
         self.nameLabel.setWordWrap(True)
-        self.roomLabel = QtGui.QLabel()
-        hboxes = [QtGui.QHBoxLayout() for i in range(self.numFields)]
-        vbox = QtGui.QVBoxLayout(self)
-        widget = QtGui.QWidget(self)
+        self.roomLabel = QtWidgets.QLabel()
+        hboxes = [QtWidgets.QHBoxLayout() for i in range(self.numFields)]
+        vbox = QtWidgets.QVBoxLayout(self)
+        widget = QtWidgets.QWidget(self)
         widget.setLayout(vbox)
-        scrollableArea = QtGui.QScrollArea(self)
+        scrollableArea = QtWidgets.QScrollArea(self)
         scrollableArea.setWidget(widget)
         scrollableArea.setWidgetResizable(True)
 
@@ -40,20 +40,20 @@ class propertiesWidget(QtGui.QWidget):
             hboxes[i].addWidget(self.quantityFields[i])
             vbox.addLayout(hboxes[i])
 
-        hbox0 = QtGui.QHBoxLayout()
+        hbox0 = QtWidgets.QHBoxLayout()
         hbox0.addStretch(True)
         hbox0.addWidget(self.doneButton)
 
-        hbox1 = QtGui.QHBoxLayout()
+        hbox1 = QtWidgets.QHBoxLayout()
         hbox1.addWidget(self.idHeader)
         hbox1.addWidget(self.quantityHeader)
 
-        widgetLayout = QtGui.QVBoxLayout(self)
+        widgetLayout = QtWidgets.QVBoxLayout(self)
         widgetLayout.addLayout(hbox0)
         widgetLayout.addLayout(hbox1)
         widgetLayout.addWidget(scrollableArea)
 
-        hbox3 = QtGui.QHBoxLayout()
+        hbox3 = QtWidgets.QHBoxLayout()
         hbox3.addWidget(self.nameLabel)
         hbox3.addWidget(self.roomLabel)
         widgetLayout.addLayout(hbox3)
@@ -66,11 +66,11 @@ class propertiesWidget(QtGui.QWidget):
 ################Non Gui
 
         self.connectDataFields()
-        QtGui.QApplication.instance().focusChanged.connect(self.onFocusUpdateLabels)
+        QtWidgets.QApplication.instance().focusChanged.connect(self.onFocusUpdateLabels)
 
 ##############Keyboard shortcuts
-        quantityIncreaseShortcut = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+Up'), self)
-        quantityDecreaseShortcut = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+Down'), self)
+        quantityIncreaseShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Up'), self)
+        quantityDecreaseShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Down'), self)
         quantityIncreaseShortcut.activated.connect(self.quantityShortcutHandler(1))
         quantityDecreaseShortcut.activated.connect(self.quantityShortcutHandler(-1))
 
@@ -95,7 +95,7 @@ class propertiesWidget(QtGui.QWidget):
 #Upadate name and room labels, on focus change
     def onFocusUpdateLabels(self):
         try:
-            widget = QtGui.QApplication.instance().focusWidget()
+            widget = QtWidgets.QApplication.instance().focusWidget()
             if widget in self.idFields:
                 index = self.idFields.index(widget)
             if widget in self.quantityFields:
@@ -122,7 +122,7 @@ class propertiesWidget(QtGui.QWidget):
             self.quantityFields[i].valueChanged.connect(self.dataEntryHandler(i))
 
     def setTabOrder(self):
-        for i in range(len(self.idFields)-1): QtGui.QWidget.setTabOrder(self.idFields[i],self.idFields[i+1])
+        for i in range(len(self.idFields)-1): QtWidgets.QWidget.setTabOrder(self.idFields[i],self.idFields[i+1])
 
 #refresh and update the contents of the widget
     def refresh(self):
