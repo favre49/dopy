@@ -165,6 +165,7 @@ class billingWidget(QtWidgets.QWidget):
             openFolder = os.path.expanduser('~')
             for line in trackedPathFile: openFolder = os.sep.join(line.split(os.sep)[:-1])
             path = QtWidgets.QFileDialog.getExistingDirectory(self, "Locate the Folder to bill", openFolder)
+            path = QtCore.QDir.toNativeSeparators(path)
             if path == "": return None #FileDialog closed
             trackedPathFile.seek(0)
             trackedPathFile.write(path)

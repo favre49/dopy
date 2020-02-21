@@ -175,6 +175,7 @@ class mainWindow(QtWidgets.QMainWindow):
 
     def billGenerator(self):
         path = QtWidgets.QFileDialog.getExistingDirectory(self, "Locate the Billed Snaps Folder")
+        path =  QtCore.QDir.toNativeSeparators(path);
         if path == "": return None #FileDialog closed
         billingList = chorePlay.readSnaps(path)
         chorePlay.generateBill(billingList, self.database)

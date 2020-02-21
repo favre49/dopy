@@ -6,13 +6,15 @@ import niggerFiles
 
 def generateDatabase():
         csvFilePath = QtWidgets.QFileDialog.getOpenFileName(None, "Locate the Student Details csv file", "", "*.csv")
+        csvFilePathpath = csvFilePath[0];
+        csvFilePathpath = QtCore.QDir.toNativeSeparators(csvFilePathpath);
         print(csvFilePath)
-        if csvFilePath == "": return None #FileDialog closed
+        if csvFilePathpath == "": return None #FileDialog closed
         try:
             databaseFilePath = os.getcwd() + os.sep + "resources" + os.sep +"database.db"
             database = sqlite3.connect(databaseFilePath)
             cursor = database.cursor()
-            csvfile = open(csvFilePath[0], "r")
+            csvfile = open(csvFilePathpath, "r")
             try:
                 cursor.execute("drop table if exists studrec")
                 cursor.execute('''create table studrec
@@ -179,6 +181,7 @@ def resizeAndSave(billingWidget):
         for line in trackedPathFile: openFolder = os.sep.join(line.split(os.sep)[:-1])
         print("patha", openFolder)
         destinationPath = QtWidgets.QFileDialog.getExistingDirectory(None,"Locate the Billed Snaps Folder", openFolder)
+        destinationPath = QtCore.QDir.toNativeSeparators(destinationPath);
         if destinationPath == "": return None
         trackedPathFile.close()
 

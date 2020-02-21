@@ -137,6 +137,7 @@ class Email_Ui(QtWidgets.QWidget):
     #functions#
     def pathLoader(self):
         self.path=QtWidgets.QFileDialog.getExistingDirectory(parent=None, caption='Choose A File')
+        self.path = QtCore.QDir.toNativeSeparators(self.path);
         if self.path == '':
             QtWidgets.QMessageBox.about(self,"Choose a valid folder!","You chose nothing. Choose something")
             return None
