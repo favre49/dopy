@@ -228,10 +228,10 @@ class displayWidget(QtWidgets.QWidget):
 
     def rotate(self, direction):
         def rotateClockwise():
-            self.pixmap = self.pixmap.transformed(QtWidgets.QTransform().rotate(90))
+            self.pixmap = self.pixmap.transformed(QtGui.QTransform().rotate(90))
             self.setPixmap()
         def rotateCounterClockwise():
-            self.pixmap = self.pixmap.transformed(QtWidgets.QTransform().rotate(-90))
+            self.pixmap = self.pixmap.transformed(QtGui.QTransform().rotate(-90))
             self.setPixmap()
         return rotateClockwise if direction == "clockwise" else rotateCounterClockwise
 
